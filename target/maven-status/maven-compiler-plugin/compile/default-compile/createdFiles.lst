@@ -1,0 +1,11 @@
+k1/modelo/Usuario.class
+k1/service/UsuarioServico.class
+k1/manager/ManagerUsuario.class
+k1/util/Mensagem.class
+k1/util/DateUtil.class
+k1/bibliotecadev/resources/JakartaEE10Resource.class
+k1/modelo/Livro.class
+k1/modelo/Emprestimo.class
+k1/bibliotecadev/JakartaRestConfiguration.class
+k1/modelo/Autor.class
+k1/enums/Status.class
