@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+    <h:head>
+        <title>Biblioteca.Dev - Cadastro</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:growl/>
+            <p:panel header="Cadastro Livro">
+                <h:panelGrid columns="1">
+                    <p:outputLabel value="Titulo: "/>
+                    <p:inputText value="#{managerLivro.livro.titulo}"/>
+                    <p:outputLabel value="ISBN: "/>
+                    <p:inputText value="#{managerLivro.livro.isbn}"/>
+                    <p:outputLabel value="Ano Publicação: "/>
+                    <p:inputNumber 
+                        maxlength="4" 
+                        maxValue="9999" 
+                        decimalSeparator="" 
+                        thousandSeparator="" 
+                        decimalPlaces="0"
+                        value="#{managerLivro.livro.anoPublicacao}" />
+
+                    <p:outputLabel value="Autor: "/>
+
+                    <p:selectManyMenu id="autores" value="#{managerLivro.autoresSelecionados}"
+                                      converter="#{autorConversor}"
+                                      var="a" filter="true" filterMatchMode="contains" filterNormalize="true"
+                                      showCheckbox="true" styleClass="manymenu-advanced">
+                        <f:selectItems value="#{managerAutor.autores}" var="a" 
+                                       itemValue="#{autor}"/>
+                        <p:column>
+                            <h:outputText value="#{a.nome}"/>
+                        </p:column>
+                    </p:selectManyMenu>
+                </h:panelGrid>
+
+                <p:commandButton value="#{managerLivro.btNome}" action="#{managerLivro.salvar()}" rendered="#{managerLivro.btSalvar}" icon="pi pi-save" update="@form"/>
+                <p:button value="Voltar" href="../index.xhtml" icon="pi pi-chevron-left"/>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html> 

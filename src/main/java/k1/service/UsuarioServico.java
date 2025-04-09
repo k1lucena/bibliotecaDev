@@ -28,10 +28,10 @@ public class UsuarioServico {
     }
  
     public List<Usuario> findUsuarios(Usuario usuario) {
-        String jpql = "SELECT u FROM Usuario u";
+        String jpql = "SELECT u FROM Usuario u WHERE u.ativo = true";
         
         if (usuario.getNome() != null && !usuario.getNome().isEmpty()) {
-            jpql += " WHERE u.nome LIKE :nome";
+            jpql += " and u.nome LIKE :nome";
         }
         
         Query query = em.createQuery(jpql);

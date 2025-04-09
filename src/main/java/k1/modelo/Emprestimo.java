@@ -9,13 +9,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 import k1.enums.Status;
 
 @Entity
-public class Emprestimo {
+public class Emprestimo implements Serializable {
     
     @Id
     @GeneratedValue(generator = "seq_emprestimo", strategy = GenerationType.IDENTITY)

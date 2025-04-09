@@ -5,10 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Autor {
+public class Autor implements Serializable {
 
     @Id
     @GeneratedValue(generator = "seq_autor", strategy = GenerationType.IDENTITY)

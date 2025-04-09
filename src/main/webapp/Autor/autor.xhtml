@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Biblioteca.Dev - Cadastro</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:growl/>
+            <p:panel header="Cadastro Autor">
+                <h:panelGrid columns="1">
+                    <p:outputLabel value="Nome: "/>
+                    <p:inputText value="#{managerAutor.autor.nome}"/>
+                    <p:outputLabel value="Nacionalidade "/>
+                    <p:inputText value="#{managerAutor.autor.nacionalidade}"/>
+                </h:panelGrid>
+
+                <p:commandButton value="#{managerAutor.btSalvar}" action="#{managerAutor.salvar()}" rendered="#{managerAutor.btSalvar}" icon="pi pi-save" update="@form"/>
+                <p:button value="Voltar" href="../index.xhtml" icon="pi pi-chevron-left"/>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html> 

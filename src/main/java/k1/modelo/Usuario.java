@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Usuario implements Serializable{
+public class Usuario implements Serializable {
     
     @Id
     @GeneratedValue(generator = "seq_usuario", strategy = GenerationType.IDENTITY)
@@ -26,10 +26,9 @@ public class Usuario implements Serializable{
     
     private Integer totalLivros;
     
-    private Boolean ativo;
+    private Boolean ativo = Boolean.TRUE;
 
     public Usuario() {
-        this.ativo = Boolean.TRUE;
     }
 
     public Usuario(Long id, String nome, String email, String telefone) {

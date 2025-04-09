@@ -10,8 +10,14 @@
         <h:form>
             <p:menubar hideDelay="1000">
                 <p:submenu label="Cadastro" icon="pi pi-fw pi-plus">
-                <p:menuitem value="Usuario" icon="pi pi-fw pi-user" url="usuario.xhtml"/>
-                <p:menuitem value="Visualizar" icon="pi pi-fw pi-eye" url="pesquisarUsuario.xhtml"/>
+                    <p:menuitem value="Usuario" icon="pi pi-fw pi-user" url="./Usuario/usuario.xhtml"/>
+                    <p:menuitem value="Autor" icon="pi pi-fw pi-user" url="./Autor/autor.xhtml"/>
+                    <p:menuitem value="Livro" icon="pi pi-fw pi-book" url="./Livro/livro.xhtml"/>
+                </p:submenu>
+                <p:submenu label="Visualizar" icon="pi pi-fw pi-eye">
+                    <p:menuitem value="Visualizar Usuario" icon="pi pi-fw pi-user" url="./Usuario/pesquisarUsuario.xhtml"/>
+                    <p:menuitem value="Visualizar Autor" icon="pi pi-fw pi-users" url="./Autor/pesquisarAutor.xhtml"/>
+                    <p:menuitem value="Visualizar Livro" icon="pi pi-fw pi-book" url="./Livro/pesquisarLivro.xhtml"/>
                 </p:submenu>
             </p:menubar>
         </h:form>

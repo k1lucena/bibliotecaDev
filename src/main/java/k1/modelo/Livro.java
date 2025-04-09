@@ -2,17 +2,20 @@ package k1.modelo;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
-public class Livro {
+public class Livro implements Serializable {
    
     @Id
     @GeneratedValue(generator = "seq_livro", strategy = GenerationType.IDENTITY)
@@ -78,6 +81,10 @@ public class Livro {
 
     public List<Autor> getAutor() {
         return autor;
+    }
+    
+    public String autorNome(){
+        return this.autor.stream().map(Autor::getNome).collect(Collectors.joining(", "));
     }
 
     public void setAutor(List<Autor> autor) {
