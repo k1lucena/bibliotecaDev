@@ -12,7 +12,7 @@ import k1.service.AutorServico;
 
 @Named
 @ApplicationScoped
-@FacesConverter(value = "countryConverter", managed = true)
+@FacesConverter(value = "autorConverter", managed = true)
 public class AutorConversor implements Converter<Autor>{
 
     @Inject

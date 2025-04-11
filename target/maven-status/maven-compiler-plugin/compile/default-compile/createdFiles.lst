@@ -1,12 +1,16 @@
 k1/manager/ManagerLivro.class
 k1/util/Mensagem.class
+k1/conversor/LivroConversor.class
 k1/modelo/Livro.class
+k1/conversor/UsuarioConversor.class
 k1/enums/Status.class
+k1/manager/ManagerEmprestimo.class
 k1/modelo/Usuario.class
 k1/manager/ManagerAutor.class
 k1/service/UsuarioServico.class
 k1/service/LivroServico.class
 k1/manager/ManagerUsuario.class
+k1/service/EmprestimoServico.class
 k1/util/DateUtil.class
 k1/bibliotecadev/resources/JakartaEE10Resource.class
 k1/modelo/Emprestimo.class

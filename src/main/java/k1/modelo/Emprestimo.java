@@ -44,7 +44,6 @@ public class Emprestimo implements Serializable {
     public Emprestimo(Long id, Usuario usuario, Livro livro, LocalDate dataEmprestimo, Date dataPrevistaDevolucao, LocalDate dataDevolucao, Status status) {
         this.id = id;
         this.usuario = usuario;
-        this.livro = livro;
         this.dataEmprestimo = dataEmprestimo;
         this.dataPrevistaDevolucao = dataPrevistaDevolucao;
         this.dataDevolucao = dataDevolucao;
@@ -73,7 +72,7 @@ public class Emprestimo implements Serializable {
 
     public void setLivro(Livro livro) {
         this.livro = livro;
-    }
+    }   
 
     public LocalDate getDataEmprestimo() {
         return dataEmprestimo;
@@ -153,10 +152,6 @@ public class Emprestimo implements Serializable {
         return this.status == other.status;
     }
 
-    @Override
-    public String toString() {
-        return "Emprestimo{" + "id=" + id + ", \nusuario=" + usuario.getNome() + ", \nlivro=" + livro.getTitulo() + "\nisbn=" + livro.getIsbn() + ", \ndataEmprestimo=" + dataEmprestimo + ", \ndataPrevistaDevolucao=" + dataPrevistaDevolucao + ", \ndataDevolucao=" + dataDevolucao + ", \nstatus=" + status + '}' + "\n-=-=-=-=-=-\n";
-    }
 
    
     

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+    <h:head>
+        <title>Biblioteca.Dev - Realizar Emprestimo</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:growl/>
+            <p:panel header="Realizar Emprestimo">
+                <h:panelGrid columns="1">
+                    <p:outputLabel value="Usuario: "/>
+                    <p:selectOneListbox id="advanced" value="#{managerEmprestimo.emprestimo.usuario}" converter="#{usuarioConversor}"
+                                        var="u" filter="true" filterMatchMode="contains" filterNormalize="true">
+                        <f:selectItems value="#{managerUsuario.usuarios}" var="u"/>
+                        <p:column>
+                            <h:outputText value="#{u.nome}"/>
+                        </p:column>
+                    </p:selectOneListbox>
+
+                    <p:outputLabel value="Livro "/>
+                    <p:selectOneListbox id="livros" value="#{managerEmprestimo.emprestimo.livro}" converter="#{livroConversor}"
+                                        var="l" filter="true" filterMatchMode="contains" filterNormalize="true">
+                        <f:selectItems value="#{managerLivro.livros}" />
+                        <p:column>
+                            <h:outputText value="#{l.titulo}" />
+                        </p:column>
+                    </p:selectOneListbox>
+
+                    <p:outputLabel for="basic" value="Data Devolução: " />
+                    <p:datePicker id="basic" value="#{managerEmprestimo.emprestimo.dataPrevistaDevolucao}" />
+                </h:panelGrid>
+
+                <p:commandButton value="#{managerEmprestimo.btNome}" action="#{managerEmprestimo.salvar()}" icon="pi pi-save" update="@form"/>
+                <p:button value="Voltar" href="./pesquisarEmprestimo.xhtml" icon="pi pi-chevron-left"/>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html> 

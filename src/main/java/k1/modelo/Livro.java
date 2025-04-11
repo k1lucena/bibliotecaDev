@@ -152,6 +152,10 @@ public class Livro implements Serializable {
         return "Livro{" + "id=" + id + ", titulo=" + titulo + ", isbn=" + isbn + ", anoPublicacao=" + anoPublicacao + ", disponivel=" + disponivel + ", autor=" + autor + '}';
     }
 
+    public void addAll(List<Livro> livrosSelecionados) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     
 
 }

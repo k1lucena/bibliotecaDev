@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+    <h:head>
+        <title>Pesquisar Autor</title>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <p:growl/>
+            <p:panel header="Pesquisar Livro">
+                <p:button value="Voltar" href="../index.xhtml" icon="pi pi-chevron-left"/>
+                <p:dataTable id="dataTable" var="e" value="#{managerEmprestimo.emprestimos}" widgetVar="customersTable"
+                             filteredValue="#{managerEmprestimo.emprestimosFiltrados}">
+                    <p:column headerText="Nome" filterBy="#{e.usuario.nome}" filterMatchMode="contains">
+                        #{e.usuario.nome}
+                    </p:column>
+                    <p:column headerText="Titulo" filterBy="#{e.livro.titulo}" filterMatchMode="contains">
+                        #{e.livro.titulo}
+                    </p:column>
+                    <p:column headerText="Data de Emprestimo" filterBy="#{e.dataEmprestimo}" filterMatchMode="contains">
+                        #{e.dataEmprestimo}
+                    </p:column>
+
+                    <p:column headerText="Data para Entrega" filterBy="#{e.dataPrevistaDevolucao}" filterMatchMode="contains">
+                        <h:outputText value="#{e.dataPrevistaDevolucao}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Status" filterBy="#{e.status}" filterMatchMode="exact">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('customersTable').filter()">
+                                <f:selectItem itemLabel="Todos" itemValue="#{null}" />
+                                <f:selectItems value="#{managerEmprestimo.statusDisponiveis}" var="s"
+                                               itemLabel="#{s}" itemValue="#{s}" />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        #{e.status}
+                    </p:column>
+                    
+                    <p:column headerText="Devolver">
+                        <p:commandButton actionListener="#{managerEmprestimo.devolver(e)}" icon="pi pi-undo" styleClass="ui-button-info" update="@form"/>
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html> 

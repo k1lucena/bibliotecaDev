@@ -12,5 +12,9 @@
 /home/k1/Develop/desafio/bibliotecaDEV/src/main/java/k1/bibliotecadev/JakartaRestConfiguration.java
 /home/k1/Develop/desafio/bibliotecaDEV/src/main/java/k1/service/LivroServico.java
 /home/k1/Develop/desafio/bibliotecaDEV/src/main/java/k1/modelo/Autor.java
+/home/k1/Develop/desafio/bibliotecaDEV/src/main/java/k1/manager/ManagerEmprestimo.java
+/home/k1/Develop/desafio/bibliotecaDEV/src/main/java/k1/conversor/LivroConversor.java
 /home/k1/Develop/desafio/bibliotecaDEV/src/main/java/k1/conversor/AutorConversor.java
 /home/k1/Develop/desafio/bibliotecaDEV/src/main/java/k1/service/UsuarioServico.java
+/home/k1/Develop/desafio/bibliotecaDEV/src/main/java/k1/service/EmprestimoServico.java
+/home/k1/Develop/desafio/bibliotecaDEV/src/main/java/k1/conversor/UsuarioConversor.java
