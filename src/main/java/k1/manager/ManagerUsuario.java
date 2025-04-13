@@ -59,15 +59,19 @@ public class ManagerUsuario implements Serializable {
     }
 
     public void salvar() {
-        if (usuario.getId() == null) {
-            usuarioService.salvar(usuario);
-            Mensagem.mensagemInformacao("Usuário salvo com sucesso.");
+        try {
+            if (usuario.getId() == null) {
+                usuarioService.salvar(usuario);
+                Mensagem.mensagemInformacao("Usuário salvo com sucesso.");
+                init();
+            } else {
+                usuarioService.atualizar(usuario);
+                Mensagem.mensagemInformacao("Usuário atualizado com sucesso.");
+            }
             init();
-        } else {
-            usuarioService.atualizar(usuario);
-            Mensagem.mensagemInformacao("Usuário atualizado com sucesso.");
+        } catch (Exception error) {
+            Mensagem.mensagemAlerta("Erro ao cadastrar, email ou número já cadastrados.á");
         }
-        init();
     }
 
     public void deletar() {

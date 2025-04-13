@@ -17,7 +17,7 @@
                     <p:inputText value="#{managerAutor.autor.nacionalidade}"/>
                 </h:panelGrid>
 
-                <p:commandButton value="#{managerAutor.btSalvar}" action="#{managerAutor.salvar()}" rendered="#{managerAutor.btSalvar}" icon="pi pi-save" update="@form"/>
+                <p:commandButton value="#{managerAutor.btNome}" action="#{managerAutor.salvar()}" rendered="#{managerAutor.btSalvar}" icon="pi pi-save" update="@form"/>
                 <p:button value="Voltar" href="./pesquisarAutor.xhtml" icon="pi pi-chevron-left"/>
             </p:panel>
         </h:form>

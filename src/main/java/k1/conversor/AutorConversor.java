@@ -25,7 +25,7 @@ public class AutorConversor implements Converter<Autor>{
 
         try {
             Long id = Long.valueOf(value);
-            return autorServico.find(id); // usa o serviço para buscar o autor
+            return autorServico.find(id);
         } catch (NumberFormatException e) {
             return null;
         }

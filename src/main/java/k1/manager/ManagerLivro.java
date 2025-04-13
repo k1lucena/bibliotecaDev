@@ -11,44 +11,50 @@ import java.util.List;
 import java.util.Map;
 import k1.modelo.Autor;
 import k1.modelo.Livro;
+import k1.service.AutorServico;
 import k1.service.LivroServico;
 import k1.util.Mensagem;
 
 @Named
 @ViewScoped
 public class ManagerLivro implements Serializable {
-    
+
     @EJB
     private LivroServico livroServico;
     
+    @EJB
+    private AutorServico autorServico;
+
     private Livro livro;
     private List<Livro> livros;
-    
+
     private Boolean btSalvar;
     private String btNome;
-    
+
     private List<Autor> autoresSelecionados;
+    private List<Autor> todosAutores;
     
     @PostConstruct
-    public void init(){
+    public void init() {
         livro = new Livro();
         livros = new ArrayList<>();
         autoresSelecionados = new ArrayList<>();
+        todosAutores = autorServico.findAutor();
         carregarParametro();
         pesquisar();
     }
-    
-    public void pesquisar(){
+
+    public void pesquisar() {
         livros = livroServico.findLivros(livro);
     }
-    
-    public void carregarParametro(){
+
+    public void carregarParametro() {
         Map<String, String> params = FacesContext.getCurrentInstance()
                 .getExternalContext().getRequestParameterMap();
-        
+
         String visualizar = params.get("visualizar");
         String editar = params.get("editar");
-        
+
         if (visualizar != null) {
             livro = livroServico.find(Long.valueOf(visualizar));
             btSalvar = false;
@@ -62,22 +68,26 @@ public class ManagerLivro implements Serializable {
             btNome = "Salvar";
         }
     }
-    
-    public void salvar(){
-        if (livro.getId() == null) {
-            livro.getAutor().addAll(autoresSelecionados);
-            livroServico.salvar(livro);
-            Mensagem.mensagemInformacao("Autor salvo com sucesso.");
+
+    public void salvar() {
+        try {
+            if (livro.getId() == null) {
+                livro.getAutor().addAll(autoresSelecionados);
+                livroServico.salvar(livro);
+                Mensagem.mensagemInformacao("Autor salvo com sucesso.");
+                init();
+            } else {
+                livro.getAutor().clear();
+                livro.getAutor().addAll(autoresSelecionados);
+                livroServico.atualizar(livro);
+                Mensagem.mensagemInformacao("Usuário atualizado com sucesso.");
+            }
             init();
-        } else {
-            livro.getAutor().clear();
-            livro.getAutor().addAll(autoresSelecionados);
-            livroServico.atualizar(livro);
-            Mensagem.mensagemInformacao("Usuário atualizado com sucesso.");
+        } catch (Exception e) {
+            Mensagem.mensagemAlerta("Livro já cadastrado.");
         }
-        init();
     }
-    
+
     public void deletar() {
         livro.setAtivo(false);
         livroServico.atualizar(livro);
@@ -85,6 +95,14 @@ public class ManagerLivro implements Serializable {
         pesquisar();
     }
 
+    public List<Autor> getTodosAutores() {
+        return todosAutores;
+    }
+
+    public void setTodosAutores(List<Autor> todosAutores) {
+        this.todosAutores = todosAutores;
+    }
+    
     public LivroServico getLivroServico() {
         return livroServico;
     }
@@ -132,9 +150,5 @@ public class ManagerLivro implements Serializable {
     public void setAutoresSelecionados(List<Autor> autoresSelecionados) {
         this.autoresSelecionados = autoresSelecionados;
     }
-    
-    
 
-    
-    
 }

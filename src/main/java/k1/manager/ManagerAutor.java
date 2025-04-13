@@ -19,40 +19,45 @@ public class ManagerAutor implements Serializable {
 
     @EJB
     private AutorServico autorServico;
-    
+
     private Autor autor;
     private List<Autor> autores;
-    
+
     private Boolean btSalvar;
     private String btNome;
-    
-    private List<Autor> autoresSelecionados;
-    
+
     @PostConstruct
-    public void init(){
+    public void init() {
         autor = new Autor();
         autores = new ArrayList<>();
-        autoresSelecionados = new ArrayList<>();
         carregarParametro();
         pesquisar();
     }
-    
-    public void pesquisar(){
+
+    public void pesquisar() {
         autores = autorServico.findAutor(autor);
     }
-    
-    public void carregarParametro(){
+
+    public void carregarParametro() {
         Map<String, String> params = FacesContext.getCurrentInstance()
                 .getExternalContext().getRequestParameterMap();
-        
+
         String visualizar = params.get("visualizar");
         String editar = params.get("editar");
-        
-        if (visualizar != null){
+
+        if (visualizar != null) {
             autor = autorServico.find(Long.valueOf(visualizar));
+            if (autor == null) {
+                autor = new Autor(); // Garante que não seja nulo
+                Mensagem.mensagemAlerta("Autor não encontrado");
+            }
             btSalvar = false;
         } else if (editar != null) {
             autor = autorServico.find(Long.valueOf(editar));
+            if (autor == null) {
+                autor = new Autor(); // Garante que não seja nulo
+                Mensagem.mensagemAlerta("Autor não encontrado");
+            }
             btSalvar = true;
             btNome = "Editar";
         } else {
@@ -60,20 +65,23 @@ public class ManagerAutor implements Serializable {
             btNome = "Salvar";
         }
     }
-    
-    
-    public void salvar(){
-        if (autor.getId() == null){
-            autorServico.salvar(autor);
-            Mensagem.mensagemInformacao("Autor salvo com sucesso.");
+
+    public void salvar() {
+        try {
+            if (autor.getId() == null) {
+                autorServico.salvar(autor);
+                Mensagem.mensagemInformacao("Autor salvo com sucesso.");
+                init();
+            } else {
+                autorServico.atualizar(autor);
+                Mensagem.mensagemInformacao("Usuário atualizado com sucesso.");
+            }
             init();
-        } else {
-            autorServico.atualizar(autor);
-            Mensagem.mensagemInformacao("Usuário atualizado com sucesso.");
+        } catch (Exception e) {
+            Mensagem.mensagemAlerta("Autor já cadastrado");
         }
-        init();
     }
-    
+
     public void deletar() {
         autor.setAtivo(false);
         autorServico.atualizar(autor);
@@ -115,20 +123,6 @@ public class ManagerAutor implements Serializable {
 
     public String getBtNome() {
         return btNome;
-    }
 
-    public void setBtNome(String btNome) {
-        this.btNome = btNome;
     }
-
-    public List<Autor> getAutoresSelecionados() {
-        return autoresSelecionados;
-    }
-
-    public void setAutoresSelecionados(List<Autor> autoresSelecionados) {
-        this.autoresSelecionados = autoresSelecionados;
-    }
-    
-    
-    
 }

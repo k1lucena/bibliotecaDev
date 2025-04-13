@@ -24,7 +24,7 @@ public class Usuario implements Serializable {
     @Column(unique = true)    
     private String telefone;
     
-    private Integer totalLivros;
+    private Integer totalLivros = 0;
     
     private Boolean ativo = Boolean.TRUE;
 

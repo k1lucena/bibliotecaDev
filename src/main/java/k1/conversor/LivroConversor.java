@@ -25,7 +25,7 @@ public class LivroConversor implements Converter<Livro> {
 
         try {
             Long id = Long.valueOf(value);
-            return livroServico.find(id); // usa o serviço para buscar o autor
+            return livroServico.find(id);
         } catch (NumberFormatException e) {
             return null;
         }
