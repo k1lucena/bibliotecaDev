@@ -16,6 +16,7 @@ import k1.enums.Status;
 import k1.modelo.Emprestimo;
 import k1.service.EmprestimoServico;
 import k1.service.LivroServico;
+import k1.service.UsuarioServico;
 import k1.util.Mensagem;
 
 @Named
@@ -26,7 +27,9 @@ public class ManagerEmprestimo implements Serializable {
     private EmprestimoServico emprestimoServico;
     @EJB
     private LivroServico livroServico;
-    
+    @EJB
+    private UsuarioServico usuarioServico;
+
     private Emprestimo emprestimo;
     private List<Emprestimo> emprestimos;
 
@@ -77,16 +80,25 @@ public class ManagerEmprestimo implements Serializable {
     public void salvar() {
 
         if (emprestimo.getId() == null) {
-            if (emprestimo.getLivro().getDisponivel()) {
+            Integer totalLivros = emprestimo.getUsuario().getTotalLivros();
+            if (emprestimo.getLivro().getDisponivel() && totalLivros < 3) {
                 emprestimo.setDataEmprestimo(LocalDate.now());
                 emprestimo.setStatus(Status.EM_ANDAMENTO);
                 emprestimo.getLivro().setDisponivel(Boolean.FALSE);
+                emprestimo.getUsuario().setTotalLivros(totalLivros + 1);
+
+                usuarioServico.atualizar(emprestimo.getUsuario());
                 livroServico.atualizar(emprestimo.getLivro());
                 emprestimoServico.salvar(emprestimo);
                 Mensagem.mensagemInformacao("Empréstimo realizado com sucesso.");
             } else {
-                Mensagem.mensagemAlerta("Livro indisponível para empréstimo.");
-                return;
+                if (!emprestimo.getLivro().getDisponivel()) {
+                    Mensagem.mensagemAlerta("Livro indisponível para empréstimo.");
+                    return;
+                } else if (totalLivros == 3){
+                    Mensagem.mensagemAlerta("O usuário atingiu o total de livros.");
+                    return; 
+                }
             }
         } else {
             emprestimoServico.atualizar(emprestimo);
@@ -97,8 +109,13 @@ public class ManagerEmprestimo implements Serializable {
     }
 
     public void devolver(Emprestimo e) {
+        Integer totalLivros = e.getUsuario().getTotalLivros();
+        
         e.setStatus(Status.CONCLUIDO);
         e.getLivro().setDisponivel(Boolean.TRUE);
+        e.getUsuario().setTotalLivros(totalLivros - 1);
+        
+        usuarioServico.atualizar(e.getUsuario());
         livroServico.atualizar(e.getLivro());
         emprestimoServico.atualizar(e);
         Mensagem.mensagemInformacao("Emprestimo desativado com sucesso.");

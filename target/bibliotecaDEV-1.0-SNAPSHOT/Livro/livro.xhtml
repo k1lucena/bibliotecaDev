@@ -15,7 +15,7 @@
                     <p:outputLabel value="Titulo: "/>
                     <p:inputText value="#{managerLivro.livro.titulo}"/>
                     <p:outputLabel value="ISBN: "/>
-                    <p:inputText value="#{managerLivro.livro.isbn}"/>
+                    <p:inputText oninput="this.value = this.value.replace(/[^0-9\-]/g, '')" value="#{managerLivro.livro.isbn}"/>
                     <p:outputLabel value="Ano Publicação: "/>
                     <p:inputNumber 
                         maxlength="4" 
@@ -30,9 +30,10 @@
                     <p:selectManyMenu id="autores" value="#{managerLivro.autoresSelecionados}"
                                       converter="#{autorConversor}"
                                       var="a" filter="true" filterMatchMode="contains" filterNormalize="true"
-                                      showCheckbox="true" styleClass="manymenu-advanced">
-                        <f:selectItems value="#{managerAutor.autores}" var="a" 
-                                       itemValue="#{autor}"/>
+                                      showCheckbox="true" styleClass="manymenu-advanced"
+                                      style="height: 250px; overflow-y: auto;">
+                        <f:selectItems value="#{managerLivro.todosAutores}" var="a" 
+                                       itemValue="#{a}"/>
                         <p:column>
                             <h:outputText value="#{a.nome}"/>
                         </p:column>

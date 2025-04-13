@@ -14,7 +14,8 @@
                 <h:panelGrid columns="1">
                     <p:outputLabel value="Usuario: "/>
                     <p:selectOneListbox id="advanced" value="#{managerEmprestimo.emprestimo.usuario}" converter="#{usuarioConversor}"
-                                        var="u" filter="true" filterMatchMode="contains" filterNormalize="true">
+                                        var="u" filter="true" filterMatchMode="contains" filterNormalize="true"
+                                        style="height: 250px; overflow-y: auto;">
                         <f:selectItems value="#{managerUsuario.usuarios}" var="u"/>
                         <p:column>
                             <h:outputText value="#{u.nome}"/>
@@ -23,7 +24,8 @@
 
                     <p:outputLabel value="Livro "/>
                     <p:selectOneListbox id="livros" value="#{managerEmprestimo.emprestimo.livro}" converter="#{livroConversor}"
-                                        var="l" filter="true" filterMatchMode="contains" filterNormalize="true">
+                                        var="l" filter="true" filterMatchMode="contains" filterNormalize="true"
+                                        style="height: 250px; overflow-y: auto;">
                         <f:selectItems value="#{managerLivro.livros}" />
                         <p:column>
                             <h:outputText value="#{l.titulo}" />
