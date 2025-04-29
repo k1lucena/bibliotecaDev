@@ -22,7 +22,7 @@ public class UsuarioServico {
     }
     
     public List<Usuario> findUsuarios() {
-        String jpql = "SELECT u FROM Usuario u";
+        String jpql = "SELECT u FROM Usuario u WHERE u.ativo = true ORDER BY u.nome";
         Query query = em.createQuery(jpql);
         return query.getResultList();
     }

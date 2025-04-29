@@ -21,7 +21,7 @@ public class ManagerLivro implements Serializable {
 
     @EJB
     private LivroServico livroServico;
-    
+
     @EJB
     private AutorServico autorServico;
 
@@ -33,7 +33,7 @@ public class ManagerLivro implements Serializable {
 
     private List<Autor> autoresSelecionados;
     private List<Autor> todosAutores;
-    
+
     @PostConstruct
     public void init() {
         livro = new Livro();
@@ -95,6 +95,13 @@ public class ManagerLivro implements Serializable {
         pesquisar();
     }
 
+    public List<Autor> completeText(String query) {
+        String queryLowerCase = query.toLowerCase();
+        return todosAutores.stream()
+                .filter(a -> a.getNome().toLowerCase().startsWith(queryLowerCase))
+                .toList();
+    }
+
     public List<Autor> getTodosAutores() {
         return todosAutores;
     }
@@ -102,7 +109,7 @@ public class ManagerLivro implements Serializable {
     public void setTodosAutores(List<Autor> todosAutores) {
         this.todosAutores = todosAutores;
     }
-    
+
     public LivroServico getLivroServico() {
         return livroServico;
     }

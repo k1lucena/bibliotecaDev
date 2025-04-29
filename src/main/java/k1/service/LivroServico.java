@@ -24,7 +24,7 @@ public class LivroServico {
     }
 
     public List<Livro> findLivros() {
-        String jpql = "SELECT l FROM Livro l";
+        String jpql = "SELECT l FROM Livro l WHERE l.ativo = true ORDER BY l.titulo";
         Query query = em.createQuery(jpql);
         return query.getResultList();
     }

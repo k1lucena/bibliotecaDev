@@ -25,7 +25,7 @@
                             <f:setPropertyActionListener target="#{managerAutor.autor}" value="#{a}"/>
                         </p:commandButton>
                     </p:column>
-                    <p:column headerText="Código">
+                    <p:column headerText="Código" sortBy="#{a.id}">
                         #{a.id}
                     </p:column>
                     <p:column headerText="Nome">

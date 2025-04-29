@@ -23,7 +23,7 @@ public class AutorServico {
     }
     
     public List<Autor> findAutor(){
-        String jpql = "SELECT a FROM Autor a";
+        String jpql = "SELECT a FROM Autor a WHERE a.ativo = true ORDER BY a.nome";
         Query query = em.createQuery(jpql);
         return query.getResultList();
     }

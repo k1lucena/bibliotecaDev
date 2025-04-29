@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import k1.enums.Status;
 import k1.modelo.Emprestimo;
+import k1.modelo.Livro;
+import k1.modelo.Usuario;
 import k1.service.EmprestimoServico;
 import k1.service.LivroServico;
 import k1.service.UsuarioServico;
@@ -34,7 +36,7 @@ public class ManagerEmprestimo implements Serializable {
     private List<Emprestimo> emprestimos;
 
     private List<Emprestimo> emprestimosFiltrados;
-    
+
     private String btNome;
 
     @PostConstruct
@@ -95,9 +97,9 @@ public class ManagerEmprestimo implements Serializable {
                 if (!emprestimo.getLivro().getDisponivel()) {
                     Mensagem.mensagemAlerta("Livro indisponível para empréstimo.");
                     return;
-                } else if (totalLivros == 3){
+                } else if (totalLivros == 3) {
                     Mensagem.mensagemAlerta("O usuário atingiu o total de livros.");
-                    return; 
+                    return;
                 }
             }
         } else {
@@ -110,16 +112,34 @@ public class ManagerEmprestimo implements Serializable {
 
     public void devolver(Emprestimo e) {
         Integer totalLivros = e.getUsuario().getTotalLivros();
-        
+
         e.setStatus(Status.CONCLUIDO);
         e.getLivro().setDisponivel(Boolean.TRUE);
         e.getUsuario().setTotalLivros(totalLivros - 1);
-        
+
         usuarioServico.atualizar(e.getUsuario());
         livroServico.atualizar(e.getLivro());
         emprestimoServico.atualizar(e);
-        Mensagem.mensagemInformacao("Emprestimo desativado com sucesso.");
+        Mensagem.mensagemInformacao("Devolvido com sucesso.");
         pesquisar();
+    }
+
+    public List<Usuario> completeTextUsuario(String query) {
+        String queryLowerCase = query.toLowerCase();
+        return usuarioServico.findUsuarios().stream()
+                .filter(a -> a.getNome().toLowerCase().startsWith(queryLowerCase))
+                .toList();
+    }
+
+    public List<Livro> completeTextLivro(String query) {
+        String queryLowerCase = query.toLowerCase();
+        return livroServico.findLivros().stream()
+                .filter(a -> a.getTitulo().toLowerCase().startsWith(queryLowerCase))
+                .toList();
+    }
+    
+    public Date getDataAtual(){
+        return new Date();
     }
 
     public EmprestimoServico getEmprestimoServico() {
@@ -165,5 +185,5 @@ public class ManagerEmprestimo implements Serializable {
     public void setEmprestimosFiltrados(List<Emprestimo> emprestimosFiltrados) {
         this.emprestimosFiltrados = emprestimosFiltrados;
     }
-    
+
 }

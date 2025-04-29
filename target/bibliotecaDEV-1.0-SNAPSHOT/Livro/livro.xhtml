@@ -25,19 +25,19 @@
                         decimalPlaces="0"
                         value="#{managerLivro.livro.anoPublicacao}" />
 
-                    <p:outputLabel value="Autor: "/>
+                    <p:outputLabel value="Autor" for="autoCompleteAutor" styleClass="required-label"/>
+                    <p:autoComplete id="autoCompleteAutor" dropdown="true" multiple="true"
+                                    converter="#{autorConversor}"
+                                    var="autor" 
+                                    itemLabel="#{autor.nome}" 
+                                    itemValue="#{autor}" 
+                                    value="#{managerLivro.autoresSelecionados}" 
+                                    scrollHeight="200"
+                                    style="display: flex;"
+                                    inputStyleClass="form-control"
+                                    completeMethod="#{managerLivro.completeText}" />
 
-                    <p:selectManyMenu id="autores" value="#{managerLivro.autoresSelecionados}"
-                                      converter="#{autorConversor}"
-                                      var="a" filter="true" filterMatchMode="contains" filterNormalize="true"
-                                      showCheckbox="true" styleClass="manymenu-advanced"
-                                      style="height: 250px; overflow-y: auto;">
-                        <f:selectItems value="#{managerLivro.todosAutores}" var="a" 
-                                       itemValue="#{a}"/>
-                        <p:column>
-                            <h:outputText value="#{a.nome}"/>
-                        </p:column>
-                    </p:selectManyMenu>
+
                 </h:panelGrid>
 
                 <p:commandButton value="#{managerLivro.btNome}" action="#{managerLivro.salvar()}" rendered="#{managerLivro.btSalvar}" icon="pi pi-save" update="@form"/>

@@ -11,33 +11,91 @@
         <h:form>
             <p:growl/>
             <p:panel header="Realizar Emprestimo">
-                <h:panelGrid columns="1">
-                    <p:outputLabel value="Usuario: "/>
-                    <p:selectOneListbox id="advanced" value="#{managerEmprestimo.emprestimo.usuario}" converter="#{usuarioConversor}"
-                                        var="u" filter="true" filterMatchMode="contains" filterNormalize="true"
-                                        style="height: 250px; overflow-y: auto;">
-                        <f:selectItems value="#{managerUsuario.usuarios}" var="u"/>
-                        <p:column>
-                            <h:outputText value="#{u.nome}"/>
-                        </p:column>
-                    </p:selectOneListbox>
+                <p:button value="Voltar" href="../index.xhtml" icon="pi pi-chevron-left"/>
+                <h:panelGrid columns="3" style="display: flex; align-items: center; justify-content: center;">
 
-                    <p:outputLabel value="Livro "/>
-                    <p:selectOneListbox id="livros" value="#{managerEmprestimo.emprestimo.livro}" converter="#{livroConversor}"
-                                        var="l" filter="true" filterMatchMode="contains" filterNormalize="true"
-                                        style="height: 250px; overflow-y: auto;">
-                        <f:selectItems value="#{managerLivro.livros}" />
-                        <p:column>
-                            <h:outputText value="#{l.titulo}" />
-                        </p:column>
-                    </p:selectOneListbox>
-
+                    <p:outputLabel value="Usuario" for="autoCompleteUsuario" styleClass="required-label"/>
+                    <p:outputLabel value="Livro" for="autoCompleteLivro" styleClass="required-label"/>
                     <p:outputLabel for="basic" value="Data Devolução: " />
-                    <p:datePicker id="basic" value="#{managerEmprestimo.emprestimo.dataPrevistaDevolucao}" />
-                </h:panelGrid>
 
-                <p:commandButton value="#{managerEmprestimo.btNome}" action="#{managerEmprestimo.salvar()}" icon="pi pi-save" update="@form"/>
-                <p:button value="Voltar" href="./pesquisarEmprestimo.xhtml" icon="pi pi-chevron-left"/>
+                    <p:autoComplete id="autoCompleteUsuario" dropdown="true" multiple="false"
+                                    converter="#{usuarioConversor}"
+                                    var="usuario" 
+                                    itemLabel="#{usuario.nome}" 
+                                    itemValue="#{usuario}" 
+                                    value="#{managerEmprestimo.emprestimo.usuario}" 
+                                    scrollHeight="200"
+                                    style="display: flex;"
+                                    inputStyleClass="form-control"
+                                    completeMethod="#{managerEmprestimo.completeTextUsuario(usuario)}" />
+
+
+                    <p:autoComplete id="autoCompleteLivro" dropdown="true" multiple="false"
+                                    converter="#{livroConversor}"
+                                    var="livro" 
+                                    itemLabel="#{livro.titulo}" 
+                                    itemValue="#{livro}" 
+                                    value="#{managerEmprestimo.emprestimo.livro}" 
+                                    scrollHeight="200"
+                                    style="display: flex;"
+                                    inputStyleClass="form-control"
+                                    completeMethod="#{managerEmprestimo.completeTextLivro(livro)}" />
+                    
+                    <p:datePicker id="basic"
+                                  value="#{managerEmprestimo.emprestimo.dataPrevistaDevolucao}"
+                                  pattern="dd/MM/yyyy"
+                                  showIcon="true"
+                                  mindate="#{managerEmprestimo.dataAtual}">
+                    </p:datePicker>
+
+
+
+                </h:panelGrid>
+                <br/>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <p:commandButton value="Realizar Emprestimo" action="#{managerEmprestimo.salvar()}" icon="pi pi-save" update="@form form"/>
+                </div>
+                <br/>
+            </p:panel>
+        </h:form>
+
+        <h:form id="form">
+            <p:growl/>
+            <p:panel header="Pesquisar Livro" toggleable="true">
+                <p:dataTable id="dataTable" var="e" value="#{managerEmprestimo.emprestimos}" widgetVar="customersTable"
+                             filteredValue="#{managerEmprestimo.emprestimosFiltrados}" >
+                    <p:column headerText="Nome" filterBy="#{e.usuario.nome}" filterMatchMode="contains">
+                        #{e.usuario.nome}
+                    </p:column>
+                    <p:column headerText="Titulo" filterBy="#{e.livro.titulo}" filterMatchMode="contains">
+                        #{e.livro.titulo}
+                    </p:column>
+                    <p:column headerText="Data de Emprestimo" filterBy="#{e.dataEmprestimo}" filterMatchMode="contains">
+                        #{e.dataEmprestimo}
+                    </p:column>
+
+                    <p:column headerText="Data para Entrega" filterBy="#{e.dataPrevistaDevolucao}" filterMatchMode="contains">
+                        <h:outputText value="#{e.dataPrevistaDevolucao}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Status" filterBy="#{e.status}" filterMatchMode="exact">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('customersTable').filter()">
+                                <f:selectItem itemLabel="Todos" itemValue="#{null}" />
+                                <f:selectItems value="#{managerEmprestimo.statusDisponiveis}" var="s"
+                                               itemLabel="#{s}" itemValue="#{s}" />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        #{e.status}
+                    </p:column>
+
+                    <p:column headerText="Devolver">
+                        <p:commandButton actionListener="#{managerEmprestimo.devolver(e)}" icon="pi pi-undo" styleClass="ui-button-info" update="@form"/>
+                    </p:column>
+
+                </p:dataTable>
             </p:panel>
         </h:form>
     </h:body>

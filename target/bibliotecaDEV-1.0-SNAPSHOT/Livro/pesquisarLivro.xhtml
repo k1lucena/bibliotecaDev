@@ -25,7 +25,7 @@
                             <f:setPropertyActionListener target="#{managerLivro.livro}" value="#{l}"/>
                         </p:commandButton>
                     </p:column>
-                    <p:column headerText="Código">
+                    <p:column headerText="Código" sortBy="#{l.id}">
                         #{l.id}
                     </p:column>
                     <p:column headerText="Titulo">
