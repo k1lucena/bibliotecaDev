@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
     <h:head>
         <title>Biblioteca.Dev</title>
     </h:head>
@@ -19,8 +20,96 @@
                     <p:menuitem value="Visualizar Autor" icon="pi pi-fw pi-users" url="./Autor/pesquisarAutor.xhtml"/>
                     <p:menuitem value="Visualizar Livro" icon="pi pi-fw pi-book" url="./Livro/pesquisarLivro.xhtml"/>
                 </p:submenu>
-                <p:menuitem value="Emprestimo" icon="pi pi-calendar" url="./Emprestimo/emprestimo.xhtml"/>
             </p:menubar>
+            
+
+        </h:form>
+        
+                <h:form>
+            <p:growl/>
+            <p:panel header="Realizar Emprestimo" toggleable="true">
+                <h:panelGrid columns="3" style="display: flex; align-items: center; justify-content: center;">
+
+                    <p:outputLabel value="Usuario" for="autoCompleteUsuario" styleClass="required-label"/>
+                    <p:outputLabel value="Livro" for="autoCompleteLivro" styleClass="required-label"/>
+                    <p:outputLabel for="basic" value="Data Devolução: " />
+
+                <p:autoComplete id="autoCompleteUsuario" 
+                               dropdown="true" 
+                               multiple="false"
+                               converter="#{usuarioConversor}"
+                               var="usuario" 
+                               itemLabel="#{usuario.nome}" 
+                               itemValue="#{usuario}" 
+                               value="#{managerEmprestimo.emprestimo.usuario}" 
+                               scrollHeight="200"
+                               style="display: flex;"
+                               inputStyleClass="form-control"
+                               completeMethod="#{managerEmprestimo.completeTextUsuario}"
+                               forceSelection="true"/>
+
+
+                    <p:autoComplete id="autoCompleteLivro" dropdown="true" multiple="false"
+                                    converter="#{livroConversor}"
+                                    var="livro" 
+                                    itemLabel="#{livro.titulo}" 
+                                    itemValue="#{livro}" 
+                                    value="#{managerEmprestimo.emprestimo.livro}" 
+                                    scrollHeight="200"
+                                    style="display: flex;"
+                                    inputStyleClass="form-control"
+                                    completeMethod="#{managerEmprestimo.completeTextLivro}" 
+                                    forceSelection="true"/>
+                    
+                    <p:datePicker id="basic"
+                                  value="#{managerEmprestimo.emprestimo.dataPrevistaDevolucao}"
+                                  pattern="dd/MM/yyyy"
+                                  showIcon="true"
+                                  mindate="#{managerEmprestimo.dataAtual}">
+                    </p:datePicker>
+
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+
+        <h:form id="form">
+            <p:growl/>
+            <p:panel header="Pesquisar Livro" toggleable="true">
+                <p:dataTable id="dataTable" var="e" value="#{managerEmprestimo.emprestimos}" widgetVar="customersTable"
+                             filteredValue="#{managerEmprestimo.emprestimosFiltrados}" >
+                    <p:column headerText="Nome" filterBy="#{e.usuario.nome}" filterMatchMode="contains">
+                        #{e.usuario.nome}
+                    </p:column>
+                    <p:column headerText="Titulo" filterBy="#{e.livro.titulo}" filterMatchMode="contains">
+                        #{e.livro.titulo}
+                    </p:column>
+                    <p:column headerText="Data de Emprestimo" filterBy="#{e.dataEmprestimo}" filterMatchMode="contains">
+                        #{e.dataEmprestimo}
+                    </p:column>
+
+                    <p:column headerText="Data para Entrega" filterBy="#{e.dataPrevistaDevolucao}" filterMatchMode="contains">
+                        <h:outputText value="#{e.dataPrevistaDevolucao}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Status" filterBy="#{e.status}" filterMatchMode="exact">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('customersTable').filter()">
+                                <f:selectItem itemLabel="Todos" itemValue="#{null}" />
+                                <f:selectItems value="#{managerEmprestimo.statusDisponiveis}" var="s"
+                                               itemLabel="#{s}" itemValue="#{s}" />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        #{e.status}
+                    </p:column>
+
+                    <p:column headerText="Devolver">
+                        <p:commandButton actionListener="#{managerEmprestimo.devolver(e)}" icon="pi pi-undo" styleClass="ui-button-info" update="@form"/>
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
         </h:form>
     </h:body>
 </html> 
